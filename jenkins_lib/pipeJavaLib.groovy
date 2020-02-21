@@ -17,9 +17,9 @@ def call(String buildImageTag, String mvnArgs = "",
         withCredentials([[$class: 'FileBinding', credentialsId: 'java-maven-settings.xml', variable: 'SETTINGS_XML']]) {
             buildContainer.inside() {
                 if (env.BRANCH_NAME == 'master') {
-                    sh 'mvn deploy --batch-mode --settings  $SETTINGS_XML ' + "${mvnArgs}"
+                    sh 'mvn -X deploy --batch-mode --settings  $SETTINGS_XML ' + "${mvnArgs}"
                 } else {
-                    sh 'mvn package --batch-mode --settings  $SETTINGS_XML ' + "${mvnArgs}"
+                    sh 'mvn -X package --batch-mode --settings  $SETTINGS_XML ' + "${mvnArgs}"
                 }
             }
         }
@@ -32,7 +32,7 @@ def call(String buildImageTag, String mvnArgs = "",
             withCredentials([[$class: 'FileBinding', credentialsId: 'java-maven-settings.xml', variable: 'SETTINGS_XML']]) {
                 // sonar1 - SonarQube server name in Jenkins properties
                 withSonarQubeEnv('sonar1') {
-                    sh 'mvn sonar:sonar' +
+                    sh 'mvn -X sonar:sonar' +
                             " --batch-mode --settings  $SETTINGS_XML -P ci " +
                             " -Dgit.branch=${env.BRANCH_NAME} " +
                             " ${mvnArgs}" +

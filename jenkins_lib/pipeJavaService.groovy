@@ -16,9 +16,9 @@ def call(String serviceName, Boolean useJava11 = false, String mvnArgs = "",
                     " -Dgit.branch=${env.BRANCH_NAME} " +
                     " ${mvnArgs}"
             if (env.BRANCH_NAME == 'master') {
-                sh env.JAVA_HOME + 'mvn deploy' + mvn_command_arguments
+                sh env.JAVA_HOME + 'mvn -X deploy' + mvn_command_arguments
             } else {
-                sh env.JAVA_HOME + 'mvn package' + mvn_command_arguments
+                sh env.JAVA_HOME + 'mvn -X package' + mvn_command_arguments
             }
         }
     }
@@ -30,7 +30,7 @@ def call(String serviceName, Boolean useJava11 = false, String mvnArgs = "",
             withCredentials([[$class: 'FileBinding', credentialsId: 'java-maven-settings.xml', variable: 'SETTINGS_XML']]) {
                 // sonar1 - SonarQube server name in Jenkins properties
                 withSonarQubeEnv('sonar1') {
-                    sh env.JAVA_HOME + 'mvn sonar:sonar' +
+                    sh env.JAVA_HOME + 'mvn -X sonar:sonar' +
                             " --batch-mode --settings  $SETTINGS_XML -P ci " +
                             " -Dgit.branch=${env.BRANCH_NAME} " +
                             " ${mvnArgs}" +
