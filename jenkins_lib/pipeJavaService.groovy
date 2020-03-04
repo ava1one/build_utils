@@ -34,7 +34,8 @@ def call(String serviceName, Boolean useJava11 = false, String mvnArgs = "",
                             " --batch-mode --settings  $SETTINGS_XML -P ci " +
                             " -Dgit.branch=${env.BRANCH_NAME} " +
                             " ${mvnArgs}" +
-                            " -Dsonar.host.url=${env.SONAR_ENDPOINT}"
+                            " -Dsonar.host.url=${env.SONAR_ENDPOINT}" +
+                            " -Dsonar.verbose=true"
                 }
             }
         }
